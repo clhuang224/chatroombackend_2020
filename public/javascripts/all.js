@@ -2,6 +2,7 @@ $(function() {
     var socket = io();
     let inputName = document.querySelector("#inputName");
     let username;
+    let scrollPosition = 0;
 
     inputName.addEventListener("keyup", function(event) {
         event.preventDefault();
@@ -20,6 +21,10 @@ $(function() {
             switch (object.type) {
                 case "chat":
                     messages.innerHTML += `<li>${object.username}：${object.message}</li>`;
+                    scrollPosition += $("#messages")
+                        .last()
+                        .height();
+                    $("#messages").animate({ scrollTop: scrollPosition }, 100);
                     break;
                 case "connect":
                     messages.innerHTML = "";
@@ -35,11 +40,26 @@ $(function() {
                                 messages.innerHTML += `<li>${object.data[i].username} 離開聊天室</li>`;
                                 break;
                         }
+                        scrollPosition += $("#messages")
+                            .last()
+                            .height();
+                        $("#messages").animate(
+                            { scrollTop: scrollPosition },
+                            100
+                        );
                     }
                     messages.innerHTML += `<li>${object.username} 加入聊天室</li>`;
+                    scrollPosition += $("#messages")
+                        .last()
+                        .height();
+                    $("#messages").animate({ scrollTop: scrollPosition }, 100);
                     break;
                 case "disconnect":
                     messages.innerHTML += `<li>${object.username} 離開聊天室</li>`;
+                    scrollPosition += $("#messages")
+                        .last()
+                        .height();
+                    $("#messages").animate({ scrollTop: scrollPosition }, 100);
                     break;
             }
         }
