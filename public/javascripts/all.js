@@ -22,7 +22,7 @@ $(function() {
                     messages.innerHTML += `<li>${object.username}：${object.message}</li>`;
                     break;
                 case "connect":
-                  messages.innerHTML = "";
+                    messages.innerHTML = "";
                     for (let i = 0; i < object.data.length; i++) {
                         switch (object.data[i].type) {
                             case "chat":
@@ -47,12 +47,18 @@ $(function() {
 
     $("form").submit(function(e) {
         e.preventDefault(); // prevents page reloading
-        socket.emit("chat", {
-            type: "chat",
-            username: username,
-            message: $("#m").val()
-        });
-        $("#m").val("");
-        return false;
+        if (
+            $("#m")
+                .val()
+                .trim() !== ""
+        ) {
+            socket.emit("chat", {
+                type: "chat",
+                username: username,
+                message: $("#m").val()
+            });
+            $("#m").val("");
+            return false;
+        }
     });
 });
