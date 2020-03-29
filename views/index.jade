@@ -2,4 +2,11 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  ul#messages
+  form(action="")
+    input#m(type="text",autocomplete="off")
+    button send
+  div.cover
+      p 這裡是 #{title}
+      input#inputName.input(type="text",autocomplete="off",placeholder="請輸入暱稱")
+
